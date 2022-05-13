@@ -1,21 +1,44 @@
 const express = require("express");
-const debug = require("debug")("robots:server");
-const chalk = require("chalk");
+const morgan = require("morgan");
 
 const app = express();
 
-const initializeServer = (port) => {
-  const server = app.listen(port, () => {
-    debug(`server listening on port ${port}`);
-  });
+const robots = [
+  {
+    id: { $oid: "627e96883ccb21d8cae171b3" },
+    name: "Optimus Prime",
+    image:
+      "https://pm1.narvii.com/7617/0e3da39327724c32a5639bae88d64ad9c60dfecer1-752-1131v2_hq.jpg",
+    speed: "5",
+    resistance: "7",
+    creation: { $date: { $numberLong: "94694400000" } },
+  },
+  {
+    id: "627e96883ccb21d8cae171b3",
+    name: "Optimus Prime",
+    image:
+      "https://pm1.narvii.com/7617/0e3da39327724c32a5639bae88d64ad9c60dfecer1-752-1131v2_hq.jpg",
+    speed: "5",
+    resistance: "7",
+    creation: "1973",
+  },
+];
 
-  server.on("error", (error) => {
-    debug(chalk.bgRed.white("Server error"));
+app.use(morgan("dev"));
 
-    if (error.code === "EADDRINUSE") {
-      debug(chalk.bgRed.white(`Port ${port} is busy`));
-    }
-  });
-};
+app.use(express.json());
 
-module.exports = { initializeServer };
+app.get("/robots", (req, res) => {
+  res.status(200).json({ robots });
+});
+
+app.use((req, res, next) => {
+  res.status(404).json({ msg: "Any endpoint found" });
+});
+
+app.use((error, req, res, next) => {
+  debug(chalk.red(error.message));
+  res.status(500).json({ msg: "Server error" });
+});
+
+module.exports = { app };
