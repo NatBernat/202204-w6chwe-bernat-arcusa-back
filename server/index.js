@@ -33,12 +33,12 @@ app.get("/robots", (req, res) => {
 });
 
 app.use((req, res, next) => {
-  res.status(404).json({ msg: "Endpoint not found" });
+  res.status(404).json({ msg: "Any endpoint found" });
 });
 
 app.use((error, req, res, next) => {
   debug(chalk.red(error.message));
-  res.status(500).json({ msg: "Petardo" });
+  res.status(500).json({ msg: "Server error" });
 });
 
 module.exports = { app };
