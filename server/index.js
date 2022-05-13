@@ -1,7 +1,5 @@
 const express = require("express");
-const debug = require("debug")("robots:server");
 const morgan = require("morgan");
-const chalk = require("chalk");
 
 const app = express();
 
@@ -16,7 +14,7 @@ const robots = [
     creation: { $date: { $numberLong: "94694400000" } },
   },
   {
-    id: { $oid: "627e96883ccb21d8cae171b3" },
+    id: "627e96883ccb21d8cae171b3",
     name: "Optimus Prime",
     image:
       "https://pm1.narvii.com/7617/0e3da39327724c32a5639bae88d64ad9c60dfecer1-752-1131v2_hq.jpg",
@@ -34,19 +32,13 @@ app.get("/robots", (req, res) => {
   res.status(200).json({ robots });
 });
 
-const initializeServer = (port) => {
-  const server = app.listen(port, () => {
-    debug(chalk.green(`Server listening on port ${port}`));
-  });
+app.use((req, res, next) => {
+  res.status(404).json({ msg: "Endpoint not found" });
+});
 
-  server.on("error", (error) => {
-    debug(chalk.bgRed.white("Server error"));
+app.use((error, req, res, next) => {
+  debug(chalk.red(error.message));
+  res.status(500).json({ msg: "Petardo" });
+});
 
-    if (error.code === "EADDRINUSE") {
-      debug(chalk.bgRed.white(`Port ${port} is busy`));
-    }
-  });
-};
-
-module.exports = { initializeServer, app };
-
+module.exports = { app };
