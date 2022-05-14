@@ -2,9 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const RobotSchema = new Schema({
   _id: {
-    ObjectId: {
-      type: String,
-    },
+    type: String,
   },
   name: {
     type: String,

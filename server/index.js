@@ -10,11 +10,6 @@ app.use(morgan("dev"));
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-  debug("Ha llegado una request al middleware 1");
-  next();
-});
-
 app.use("/robots", robotsRouter);
 
 app.use(notFoundError);
