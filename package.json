@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "test-coverage": "jest --watchAll",
+    "coverage": "jest -- --coverage --watchAll",
     "start": "node index",
-    "startmon": "nodemon index -q",
+    "digimon": "nodemon index -q",
     "prepare": "husky install"
   },
   "keywords": [],
@@ -27,6 +27,13 @@
     "debug": "^4.3.4",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "mongoose": "^6.3.3",
     "morgan": "^1.10.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "*.js",
+      "./**/*.js"
+    ]
   }
 }
