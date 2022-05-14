@@ -1,9 +1,11 @@
+require("dotenv").config();
 const { program } = require("commander");
 
-program.option("-p, --port <port>", "Port for the API");
-
+program.option("-p --port <port>", "Insert port for the API");
 program.parse();
 
-const cliOptions = program.opts();
+const { port: newPort } = program.opts();
 
-module.exports = cliOptions;
+const portApi = newPort || process.env.PORT || 5000;
+
+module.exports = portApi;

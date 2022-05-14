@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
-const robotsRouter = require("./routers/robotsRouter");
+const debug = require("debug");
+const robotsRouter = require("./routers/robotsRouters");
 const { notFoundError, generalError } = require("./middlewares/errors");
 
 const app = express();
@@ -8,6 +9,11 @@ const app = express();
 app.use(morgan("dev"));
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+  debug("Ha llegado una request al middleware 1");
+  next();
+});
 
 app.use("/robots", robotsRouter);
 
