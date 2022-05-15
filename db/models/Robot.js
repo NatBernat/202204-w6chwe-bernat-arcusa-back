@@ -8,7 +8,7 @@ const RobotSchema = new Schema({
     type: String,
   },
   image: {
-    type: Number,
+    type: String,
   },
   speed: {
     type: Number,
