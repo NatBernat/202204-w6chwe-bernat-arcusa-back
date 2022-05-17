@@ -1,5 +1,7 @@
 const express = require("express");
-const { getRobots } = require("../controllers/robotsControllers");
+const {
+  getRobots,
+} = require("../../controllers/robotsControllers/robotsControllers");
 
 const router = express.Router();
 

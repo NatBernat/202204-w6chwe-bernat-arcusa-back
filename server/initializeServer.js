@@ -1,6 +1,6 @@
 const debug = require("debug")("robots:server");
 const chalk = require("chalk");
-const { app } = require(".");
+const app = require(".");
 
 const initializeServer = (port) => {
   const server = app.listen(port, () => {
@@ -16,4 +16,4 @@ const initializeServer = (port) => {
   });
 };
 
-module.exports = { initializeServer };
+module.exports = initializeServer;
