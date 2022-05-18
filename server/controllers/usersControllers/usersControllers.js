@@ -1,7 +1,10 @@
 require("dotenv").config();
 const bcrypt = require("bcrypt");
+const debug = require("debug")("robots:server:usersControllers");
+const chalk = require("chalk");
 const jwt = require("jsonwebtoken");
 const User = require("../../../db/models/User");
+const encryptedPassword = require("../../utils/encryptPasword");
 
 const userLogin = async (req, res, next) => {
   const { username, password } = req.body;
@@ -28,4 +31,29 @@ const userLogin = async (req, res, next) => {
   }
 };
 
-module.exports = userLogin;
+const userRegister = async (req, res, next) => {
+  const { username, password } = req.body;
+
+  const user = await User.findOne({ username });
+
+  if (user) {
+    const error = await new Error("User already exists");
+    error.statusCode = 403;
+    error.customMessage = "User already exists";
+
+    /* res.status(403).json({ msg: "User already exists" }); */
+    next(error);
+  } else {
+    const rightPassword = await encryptedPassword(password);
+
+    const userData = {
+      username: username,
+      password: rightPassword,
+    };
+    debug(chalk.blue(`User '${userData.username}' created`));
+    await User.create(userData);
+    res.json({ userData });
+  }
+};
+
+module.exports = { userLogin, userRegister };
