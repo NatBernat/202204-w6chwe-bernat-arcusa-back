@@ -1,4 +1,4 @@
-const debug = require("debug")("robots:server");
+const debug = require("debug")("robots:server:initialize");
 const chalk = require("chalk");
 const app = require(".");
 
